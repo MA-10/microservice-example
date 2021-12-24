@@ -1,0 +1,21 @@
+version: '3.8'
+services: 
+    serversql :
+        image: mcr.microsoft.com/mssql/server:2019-latest
+        environment: 
+            ACCEPT_EULA: "Y"
+            SA_PASSWORD: "hello@123"
+            MSSQL_PID: Express
+        ports: 
+            - "1433:1433"
+    profileservice:
+        build: .
+        depends_on: 
+            - serversql
+        environment: 
+            ServerName: "serversql"
+            Database: "GratiMeet"
+            UserName: "SA"
+            Password: "hello@123"
+        ports: 
+            - "80:80"
